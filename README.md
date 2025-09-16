@@ -1,2 +1,3 @@
 ## Reports
-- [Lab 01 — Database Design (PDF)](docs/lab01db.pdf)
+- [Lab 01]
+  [file:///C:/Users/Asus/OneDrive/Desktop/lab0101.pdf]
