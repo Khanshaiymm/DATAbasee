@@ -1,15 +1,18 @@
 --Part 1: Multiple Database Management
 --Task 1.1: Database Creation with Parameters
 
+DROP DATABASE IF EXISTS university_main;
 CREATE DATABASE university_main
     WITH OWNER = postgres
          TEMPLATE = template0
          ENCODING = 'UTF8';
 
+DROP DATABASE IF EXISTS university_archive;
 CREATE DATABASE university_archive
     WITH TEMPLATE = template0
          CONNECTION LIMIT = 50;
 
+DROP DATABASE IF EXISTS university_test;
 CREATE DATABASE university_test
     WITH TEMPLATE = template0
          CONNECTION LIMIT = 10;
@@ -18,17 +21,20 @@ ALTER DATABASE university_test WITH IS_TEMPLATE = true;
 
 --Task 1.2: Tablespace Operations
 
+DROP TABLESPACE IF EXISTS  student_data;
 CREATE TABLESPACE student_data
-    LOCATION '/data/students';
+    LOCATION  'C:\PostgresData\courses';
 
+DROP TABLESPACE  IF EXISTS  course_data ;
 CREATE TABLESPACE course_data
     OWNER postgres
-    LOCATION '/data/courses';
-
+    LOCATION 'C:\PostgresData\students';
+--
 -- CREATE TABLESPACE student_data LOCATION 'C:/data/students';
 -- CREATE TABLESPACE course_data  OWNER postgres LOCATION 'C:/data/courses';
 
 -- Выполнить из БД postgres под суперпользователем
+DROP  DATABASE IF EXISTS  university_distributed;
 CREATE DATABASE university_distributed
   WITH TEMPLATE = template0
        TABLESPACE = student_data
@@ -38,8 +44,9 @@ CREATE DATABASE university_distributed
 
 --Part 2: Complex Table Creation
 --Task 2.1: University Management System
-\c university_main;
 
+--\c university_main;
+DROP TABLE IF EXISTS  students;
 CREATE TABLE students (
     student_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50),
@@ -52,7 +59,7 @@ CREATE TABLE students (
     is_active BOOLEAN,
     graduation_year SMALLINT
 );
-
+DROP TABLE IF EXISTS professors;
 CREATE TABLE professors (
     professor_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50),
@@ -64,7 +71,7 @@ CREATE TABLE professors (
     is_tenured BOOLEAN,
     years_experience INTEGER
 );
-
+DROP TABLE IF EXISTS courses ;
 CREATE TABLE courses (
     course_id SERIAL PRIMARY KEY,
     course_code CHAR(8),
@@ -79,8 +86,8 @@ CREATE TABLE courses (
 
 --Task 2.2: Time-based and Specialized Tables
 
-\c university_main;
-
+--\c university_main;
+DROP TABLE IF EXISTS class_schedule ;
 CREATE TABLE class_schedule (
     schedule_id   SERIAL PRIMARY KEY,
     course_id     INTEGER,
@@ -92,6 +99,7 @@ CREATE TABLE class_schedule (
     duration      INTERVAL
 );
 
+DROP TABLE IF EXISTS student_records ;
 CREATE TABLE student_records (
     record_id              SERIAL PRIMARY KEY,
     student_id             INTEGER,
@@ -191,7 +199,7 @@ ALTER TABLE student_records
 
 --Part 4: Table Relationships and Management
 -- Task 4.1: Additional Supporting Tables
-
+DROP TABLE IF EXISTS  departments;
 CREATE TABLE departments (
     department_id     SERIAL PRIMARY KEY,
     department_name   VARCHAR(100),
@@ -201,7 +209,7 @@ CREATE TABLE departments (
     budget            NUMERIC(14,2),
     established_year  INTEGER
 );
-
+DROP TABLE IF EXISTS  library_books;
 CREATE TABLE library_books (
     book_id              SERIAL PRIMARY KEY,
     isbn                 CHAR(13),
@@ -213,7 +221,7 @@ CREATE TABLE library_books (
     is_available         BOOLEAN,
     acquisition_timestamp TIMESTAMP WITHOUT TIME ZONE
 );
-
+DROP TABLE IF EXISTS student_book_loans ;
 CREATE TABLE student_book_loans (
     loan_id      SERIAL PRIMARY KEY,
     student_id   INTEGER,
@@ -231,6 +239,7 @@ ALTER TABLE professors ADD COLUMN department_id INTEGER;
 ALTER TABLE students   ADD COLUMN advisor_id INTEGER;
 ALTER TABLE courses    ADD COLUMN department_id INTEGER;
 
+DROP TABLE IF EXISTS grade_scale;
 CREATE TABLE grade_scale (
     grade_id       SERIAL PRIMARY KEY,
     letter_grade   CHAR(2),
@@ -238,7 +247,7 @@ CREATE TABLE grade_scale (
     max_percentage NUMERIC(4,1),
     gpa_points     NUMERIC(4,2)
 );
-
+DROP  TABLE IF EXISTS  semester_calendar;
 CREATE TABLE semester_calendar (
     semester_id           SERIAL PRIMARY KEY,
     semester_name         VARCHAR(20),
@@ -279,7 +288,7 @@ CREATE TABLE semester_calendar (
 -- Task 5.2: Database Cleanup
 -- Удаляем university_test даже если она помечена как template
 
-\c postgres;
+--\c postgres;
 
 -- Снимем template-флаг только если БД существует
 DO $$
@@ -314,3 +323,4 @@ DROP DATABASE IF EXISTS university_backup;
 -----
 
 CREATE DATABASE university_backup TEMPLATE university_main;
+
