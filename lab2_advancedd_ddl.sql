@@ -1,3 +1,4 @@
+
 --Part 1: Multiple Database Management
 --Task 1.1: Database Creation with Parameters
 
@@ -20,20 +21,15 @@ CREATE DATABASE university_test
 ALTER DATABASE university_test WITH IS_TEMPLATE = true;
 
 --Task 1.2: Tablespace Operations
+-- Удаляем, если пусты (если не пусты — см. пункт C)
+DROP TABLESPACE IF EXISTS student_data;
+DROP TABLESPACE IF EXISTS course_data;
 
-DROP TABLESPACE IF EXISTS  student_data;
-CREATE TABLESPACE student_data
-    LOCATION  'C:\PostgresData\courses';
+CREATE TABLESPACE student_data LOCATION 'C:/PostgresData/students';
+CREATE TABLESPACE course_data  LOCATION 'C:/PostgresData/courses';
 
-DROP TABLESPACE  IF EXISTS  course_data ;
-CREATE TABLESPACE course_data
-    OWNER postgres
-    LOCATION 'C:\PostgresData\students';
---
--- CREATE TABLESPACE student_data LOCATION 'C:/data/students';
--- CREATE TABLESPACE course_data  OWNER postgres LOCATION 'C:/data/courses';
+-- Выполняем  будучи подключенными к postgres
 
--- Выполнить из БД postgres под суперпользователем
 DROP  DATABASE IF EXISTS  university_distributed;
 CREATE DATABASE university_distributed
   WITH TEMPLATE = template0
@@ -323,4 +319,6 @@ DROP DATABASE IF EXISTS university_backup;
 -----
 
 CREATE DATABASE university_backup TEMPLATE university_main;
+
+
 
