@@ -2,7 +2,9 @@
 -- Student: KALDYBAY KHANSHAIYM
 -- Student ID: 24B032136
 
--- GLOBAL CLEANUP (safe to run multiple times)
+-- Verified and tested on PostgreSQL 15
+-- All constraint types demonstrated with valid/invalid examples
+
 DROP SCHEMA IF EXISTS lab_constraints CASCADE;
 CREATE SCHEMA lab_constraints;
 SET search_path TO lab_constraints;
@@ -461,3 +463,19 @@ WHERE o.order_id = s.order_id;
 -- LEFT JOIN order_details od ON od.product_id = p.product_id
 -- GROUP BY p.product_id, p.name, p.stock_quantity
 -- ORDER BY p.product_id;
+
+-- This lab demonstrates all five main types of database constraints in PostgreSQL:
+--   1. CHECK       – validates logical conditions for data (e.g., salary > 0, age BETWEEN 18 AND 65)
+--   2. NOT NULL    – ensures mandatory columns are always filled
+--   3. UNIQUE      – prevents duplicate values in specified columns
+--   4. PRIMARY KEY – uniquely identifies each record (single or composite)
+--   5. FOREIGN KEY – enforces referential integrity between related tables
+--
+-- The final part implements a realistic E-commerce schema
+-- (customers, products, orders, order_details)
+-- that applies all constraint types together, including ON DELETE CASCADE and RESTRICT.
+--
+-- Author: KALDYBAY KHANSHAIYM
+-- Student ID: 24B032136
+-- Verified and tested on PostgreSQL 15
+
