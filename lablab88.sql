@@ -1,7 +1,4 @@
--- =========================
--- Lab 8 – Part 1 & Part 2
--- =========================
-
+--lab8
 -- 1. Setup: tables and data
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS employees;
@@ -303,4 +300,5 @@ SELECT * FROM index_documentation;
 
 -- 5. How to check index usage?
 --    Answer: Use EXPLAIN or EXPLAIN ANALYZE.
+
 
